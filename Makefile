@@ -1,4 +1,4 @@
-build: overwrite-variables update-bootstrap
+build: bootstrap-git-update overwrite-variables update-bootstrap
 	@echo "Building the OpenARMS thin frontend."
 	recess --compile ./less/main.less > ./css/main.css
 	recess --compress ./less/main.less > ./css/main.min.css
@@ -12,3 +12,6 @@ update-bootstrap:
 
 overwrite-variables:
 	cp -f less/variables.less bootstrap/less/
+
+bootstrap-git-update:
+	git submodule update --init bootstrap
