@@ -1,0 +1,46 @@
+table.table.well td.hint .progress {
+	margin-bottom: 0px;
+}
+table#created-polls td.question {
+	text-overflow: ellipsis;
+}
+table#created-polls td.activate a,
+table#active-polls td.deactivate a,
+table#history-polls td.activate a {
+	float: right;
+}
+table#created-polls td.token,
+table#active-polls td.token,
+table#history-polls td.token {
+	font-size: 1.2em;
+	font-family: @monoFontFamily;
+}
+
+/* Create form */
+form.well .form-actions {
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+form.well .form {
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+form.well input[name=question] {
+	font-size: 1.5em;
+	line-height: 1.5em;
+	height: 1.5em;
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.poll-choices .input-prepend {
+	display: inline-block;
+	margin-right: 5px;
+}
+.poll-choices .input-prepend:last-child {
+	opacity: 0.8;
+	> * {
+		border-style: dashed;
+	}
+}

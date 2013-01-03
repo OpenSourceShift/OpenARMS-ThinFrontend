@@ -4,7 +4,7 @@ build: bootstrap-git-update overwrite-variables update-bootstrap
 	recess --compress ./less/main.less > ./css/main.min.css
 
 update-bootstrap:
-	cd bootstrap && rm -rf bootstrap/bootstrap && make bootstrap
+	cd bootstrap && make clean; make bootstrap
 	cp -f bootstrap/bootstrap/css/*.css ./css
 	cp -f bootstrap/bootstrap/js/*.js ./js
 	cp -f bootstrap/bootstrap/img/* ./img
@@ -15,3 +15,7 @@ overwrite-variables:
 
 bootstrap-git-update:
 	git submodule update --init bootstrap
+
+watch:
+	echo "Watching less files..."; \
+	watchr -e "watch('less/.*\.less') { system 'make' }"

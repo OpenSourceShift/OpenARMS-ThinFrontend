@@ -1,7 +1,8 @@
 //
 // Variables
 // --------------------------------------------------
-
+// Google Webfonts
+@import url(http://fonts.googleapis.com/css?family=Open+Sans|Text+Me+One);
 
 // Global values
 // --------------------------------------------------
@@ -23,7 +24,8 @@
 @blue:                  #049cdb;
 @blueDark:              #0064cd;
 @green:                 #46a546;
-@red:                   #9d261d;
+//@red:                   #9d261d;
+@red:                   #980000;
 @yellow:                #ffc40d;
 @orange:                #f89406;
 @pink:                  #c3325f;
@@ -33,25 +35,26 @@
 // Scaffolding
 // -------------------------
 @bodyBackground:        @grayLighter;
-@textColor:             @black;
+@textColor:             @grayDark;
+@detailColor:           @red;
 
 
 // Links
 // -------------------------
-@linkColor:             @green;
-@linkColorHover:        darken(@green, 15%);
+@linkColor:             @detailColor;
+@linkColorHover:        darken(@linkColor, 15%);
 
 
 // Typography
 // -------------------------
-@sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
+@sansFontFamily:        "Open Sans", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
 
 @baseFontSize:          14px;
 @baseFontFamily:        @sansFontFamily;
 @baseLineHeight:        20px;
-@altFontFamily:         @serifFontFamily;
+@altFontFamily:         @sansFontFamily;
 
 @headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
 @headingsFontWeight:    bold;    // instead of browser default, bold
@@ -84,11 +87,11 @@
 
 // Buttons
 // -------------------------
-@btnBackground:                     @green;
+@btnBackground:                     @white;
 @btnBackgroundHighlight:            darken(@btnBackground, 10%);
 @btnBorder:                         #bbb;
 
-@btnPrimaryBackground:              @linkColor;
+@btnPrimaryBackground:              @detailColor;
 @btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 20%);
 
 @btnInfoBackground:                 #5bc0de;

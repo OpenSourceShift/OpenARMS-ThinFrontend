@@ -1,0 +1,41 @@
+@tokenCollectorRadius: 140px;
+#token-collector {
+	position: absolute;
+	top: 50%;
+	margin-top: -@tokenCollectorRadius;
+	left: 50%;
+	margin-left: -@tokenCollectorRadius;
+	color: @red;
+
+	.rounded(@white, @tokenCollectorRadius);
+}
+#token-collector form {
+	h2,input[type=text], a.btn {
+		position: absolute;
+		text-align: center;
+	}
+	h2,input[type=text] {
+		position: absolute;
+		left: 10%;
+		right: 10%;
+		display: block;
+		width: auto;
+	}
+	h2 {
+		line-height: 2em;
+		top: 15%;
+	}
+	input[type=text] {
+		top: 50%;
+		margin-top: -1em;
+		font-size: 2em;
+		height: 2em;
+		line-height: 2em;
+		text-transform: uppercase;
+	}
+	a.btn {
+		bottom: 15%;
+		left: 30%;
+		right: 30%;
+	}
+}
