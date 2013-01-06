@@ -1,0 +1,49 @@
+#holder {
+	width: 640px;
+	height: 480px;
+	margin: 0 auto;
+}
+#active-poll .alert {
+	margin-top: 1em;
+}
+#compare-instances {
+	position: relative;
+	th.compare, td.compare {
+		position: absolute;
+		width: 0;
+		display: block;
+	}
+	tr.instance {
+		cursor: pointer;
+		td.compare i {
+			position: relative;
+			left: -20px;
+			display: none;
+		}
+		&.selected {
+			font-weight: bold;
+			td.compare i {
+				display: block;
+			}
+		}
+	}
+}
+#qr-code {
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	display: none;
+	background: fade(@black, 75%);
+	canvas {
+		display: block;
+		margin: auto;
+	}
+	.controls {
+		position: absolute;
+		bottom: 1em;
+		left: 1em;
+		right: 1em;
+	}
+}

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenARMS</title>
+    <!-- Bootstrap -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!--link href="css/main.min.css" rel="stylesheet" media="screen"-->
+    <link rel="stylesheet/less" type="text/css" href="less/main.less">
+  </head>
+  <body>
+    <div class="navbar navbar-static-top">
+      <div class="navbar-inner">
+        <a class="brand" href="index.html">OpenARMS</a>
+        <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li><a href="index.html">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row-fluid" id="active-poll">
+        <div class="span12">
+          <div class="alert alert-info">
+            <h4 class="success">This poll is activated</h4>
+            <p>There is <span>2 minutes og 23 seconds</span> left until it closes automatically.</p>
+            <div class="progress progress-striped active">
+              <div class="bar" style="width: 10%;"></div>
+            </div>
+            <p><button class="btn btn-large" onclick="showQRCode()"><i class="icon-qrcode"></i> Click here to show the QR code</button></p>
+            <p>Alternatively you can choose to <button class="btn"><i class="icon-stop"></i> Close it now</button></p>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid" id="poll-chart">
+        <div class="span9 well">
+          <h3>Results of poll #AVC3D5</h3>
+          <div id="holder"></div>
+          <button class="btn" onclick="exportToImage($('#holder'))"><i class="icon-share"></i> Export as image</button>
+        </div>
+        <div class="span3 well">
+          <h3>Compare with other instances</h3>
+          <table id="compare-instances" class="table table-striped table-condensed">
+            <tr>
+              <th class="compare"></th>
+              <th class="activated">Activated</th>
+              <th class="votes">Votes</th>
+            </tr>
+            <tr class="instance selected">
+              <td class="compare"><i class="icon-arrow-left"></i></td>
+              <td class="activated">5/1 2013 13:05</td>
+              <td class="votes">62</td>
+            </tr>
+            <tr class="instance">
+              <td class="compare"><i class="icon-arrow-left"></i></td>
+              <td class="activated">1/1 2013 15:07</td>
+              <td class="votes">23</td>
+            </tr>
+            <tr class="instance">
+              <td class="compare"><i class="icon-arrow-left"></i></td>
+              <td class="activated">18/12 2012 10:15</td>
+              <td class="votes">120</td>
+            </tr>
+            <tr class="instance">
+              <td class="compare"><i class="icon-arrow-left"></i></td>
+              <td class="activated">10/12 2012 11:03</td>
+              <td class="votes">114</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+      <div id="qr-code" onclick="hideQRCode()">
+        <div class="controls">
+          <button class="btn btn-large" onclick="hideQRCode()">Click to hide</button>
+          <button class="btn btn pull-right" onclick="downloadQRCode()">Download this image</button>
+        </div>
+      </div>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- raphael -->
+    <script src="js/raphael-min.js"></script>
+    <script src="js/g.raphael-min.js"></script>
+    <script src="js/g.pie-min.js"></script>
+    <script src="js/g.line-min.js"></script>
+
+    <script src="js/qrcode.js"></script>
+    <script src="js/jquery.qrcode.js"></script>
+
+    <!-- Needed to export graph as image -->
+    <!-- script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script> 
+    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script -->
+
+    <script>
+    function exportToImage(svg) {
+      $form = $("<form>").attr({
+        action: "svg2png.php",
+        method: "post"
+      }).css('display','none').appendTo(document.body);
+      $data = $("<input>").attr({
+        name: "data",
+        value: svg.html()
+      }).appendTo($form);
+      $data = $("<input>").attr({
+        name: "d",
+        value: "OpenARMS-poll-AVC3D5"
+      }).appendTo($form);
+      $form.submit();
+
+      /*
+      // The SVG element created by Raphael.
+      var svg = $("#holder");
+      // Create a temporary canvas.
+      var canvas = document.createElement("canvas");
+      $(canvas).appendTo(document.body);
+      // Convert from the SVG to the canvas.
+      canvg(canvas, svg.html());
+      console.log(svg.html());
+      // Serialize to a string of data.
+      //var imageData = canvas.toDataURL("image/jpeg");
+      //window.open(imageData, "_blank");
+      //$("<img>").attr('src', imageData).appendTo(document.body);
+      */
+    }
+
+    var $qr = $("#qr-code");
+
+    function generateQRCodeURI() {
+      return location.href;
+    }
+
+    function showQRCode() {
+      $qr.fadeIn();
+      updateQRCode();
+      $(window).bind('resize',updateQRCode);
+    }
+
+    function hideQRCode() {
+      $(window).unbind('resize',updateQRCode);
+      $qr.hide();
+    }
+
+    function updateQRCode() {
+      console.log("Updating size!");
+      var size = $qr.width() > $qr.height() ? $qr.height() : $qr.width();
+      // Remove any existing canvas tags.
+      $qr.find("canvas").remove();
+      // Generate again.
+      $qr.qrcode({
+        text: generateQRCodeURI(),
+        width: size,
+        height: size
+      });
+    }
+
+    function downloadQRCode() {
+      var $tempQRCode = $("<div>");
+      var canvas = $tempQRCode.qrcode({
+        text: generateQRCodeURI(),
+        width: 512,
+        height: 512
+      }).find("canvas").get(0);
+      var imageData = canvas.toDataURL('image/png');
+      window.open(imageData, "_blank");
+    }
+
+    function updateIntanceSelection() {
+      $instances = $("#compare-instances");
+      var total = $(".instance", $instances).length;
+      var selected = $(".instance.selected", $instances).length;
+      console.log("Instances in total:", total, "Instances in selected:", selected);
+      if(selected == 0) {
+        drawNoInstance();
+      } else if (selected == 1) {
+        drawSingleInstance();
+      } else {
+        drawMultipleInstances(selected);
+      }
+    }
+
+    function drawNoInstance() {
+      $("#holder").empty();
+      var r = Raphael("holder");
+      r.text(320, 100, "Please select an instance from the table to the right →").attr({ font: "20px "+fontFamily });
+    }
+
+    function drawSingleInstance() {
+      $("#holder").empty();
+      var r = Raphael("holder");
+      var pie = r.piechart(320, 240, 100, [55, 20, 13], { legend: ["%% This is a choice for the poll.","%% This is another choice for the same poll.","%% This is a third and final choice for the poll, decide already."], legendpos: "south", href: ["http://raphaeljs.com", "http://g.raphaeljs.com"]});
+
+      r.text(320, 100, "What is the question of life, the universe and everything?").attr({ font: "20px "+fontFamily });
+      var voteCounter = r.text(320, 440, "So far ? has voted.").attr({ font: "16px "+fontFamily });
+      pie.hover(function () {
+        this.sector.stop();
+        this.sector.scale(1.1, 1.1, this.cx, this.cy);
+
+        if (this.label) {
+          this.label[0].stop();
+          this.label[0].attr({ r: 7.5 });
+          this.label[1].attr({ "font-weight": 800 });
+        }
+      }, function () {
+        this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, "bounce");
+        if (this.label) {
+          this.label[0].animate({ r: 5 }, 500, "bounce");
+          this.label[1].attr({ "font-weight": 400 });
+        }
+      });
+
+      function updateVoteCounter(count) {
+        $(voteCounter.node).text(Raphael.format(voteCounterFormat, count));
+      }
+
+      function updateData(data) {
+        console.log("New data is in!", data);
+      }
+      
+      // Simulation: Call this when new votes are in.
+      updateVoteCounter("0");
+    }
+
+    function drawMultipleInstances(n) {
+      console.log("Drawing "+n+" instances.");
+
+      instanceDates = [
+        "5/1 2013 13:05",
+        "1/1 2013 15:07",
+        "18/12 2012 10:15",
+        "10/12 2012 11:03"
+      ];
+
+      $("#holder").empty();
+      var r = Raphael("holder");
+      var choices = ["This is a choice for the poll.","This is another choice for the same poll.","This is a third and final choice for the poll, decide already."];
+      var instancesValues = [];
+      var xvalues = [];
+      var yvalues = [];
+      for(var c = 0; c < choices.length; c++) {
+        xvalues[c] = [];
+        yvalues[c] = [];
+      }
+      for(var i = 0; i < n; i++) {
+        // This is the i'th instance.
+        for(var c = 0; c < choices.length; c++) {
+          xvalues[c][i] = i;
+        }
+
+        // Pick some random choices.
+        var sum = 0;
+        for(var c = 0; c < choices.length; c++) {
+          yvalues[c][i] = Math.random();
+          sum += yvalues[c][i];
+        }
+
+        // Normalize
+        for(var c = 0; c < choices.length; c++) {
+          yvalues[c][i] = yvalues[c][i] / sum;
+          yvalues[c][i] *= 100; // Procentages
+        }
+      }
+      
+      r.text(320, 100, "What is the question of life, the universe and everything?").attr({ font: "20px "+fontFamily });
+      var hoveringTip = r.text(320, 460, "").attr({ font: "13px "+fontFamily });
+
+      var chart = r.linechart(40, 120, 560, 320, xvalues, yvalues, { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: false, axis: "0 0 0 1" }).hoverColumn(function () {
+          this.tags = r.set();
+
+          for (var i = 0, ii = this.y.length; i < ii; i++) {
+            this.tags.push(r.tag(this.x, this.y[i], Math.round(this.values[i]) + "%", 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+          }
+
+          $(hoveringTip.node).text("The instance activated "+instanceDates[this.axis]);
+      }, function () {
+          this.tags && this.tags.remove();
+          $(hoveringTip.node).text("");
+      });
+
+      chart.symbols.attr({ r: 6 });
+      for(var l = 0; l < chart.lines.length; l++) {
+        var line = chart.lines[l];
+        console.log(l, line.attr('stroke'));
+      }
+
+      /*
+      pie = r.piechart(320, 240, 100, [55, 20, 13], { legend: ["%% This is a choice for the poll.","%% This is another choice for the same poll.","%% This is a third and final choice for the poll, decide already."], legendpos: "south", href: ["http://raphaeljs.com", "http://g.raphaeljs.com"]});
+
+      r.text(320, 100, "What is the question of life, the universe and everything?").attr({ font: "20px "+fontFamily });
+      var voteCounter = r.text(320, 440, "So far ? has voted.").attr({ font: "16px "+fontFamily });
+      pie.hover(function () {
+        this.sector.stop();
+        this.sector.scale(1.1, 1.1, this.cx, this.cy);
+
+        if (this.label) {
+          this.label[0].stop();
+          this.label[0].attr({ r: 7.5 });
+          this.label[1].attr({ "font-weight": 800 });
+        }
+      }, function () {
+        this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, "bounce");
+        if (this.label) {
+          this.label[0].animate({ r: 5 }, 500, "bounce");
+          this.label[1].attr({ "font-weight": 400 });
+        }
+      });*/
+    }
+
+    // var fontFamily = "Open Sans";
+    var fontFamily = "Sans-Serif";
+    var voteCounterFormat = "{0} votes in total";
+    $(function() {
+      $(".instance").live('click', function() {
+        $(this).toggleClass("selected");
+        updateIntanceSelection();
+      });
+      updateIntanceSelection();
+    });
+    </script>
+
+    <!-- Uncomment the following line, once in production -->
+    <script src="js/less-1.3.1.min.js" type="text/javascript"></script>
+  </body>
+</html>

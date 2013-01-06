@@ -10,30 +10,31 @@
 	.rounded(@white, @tokenCollectorRadius);
 }
 #token-collector form {
-	h2,input[type=text], a.btn {
-		position: absolute;
-		text-align: center;
-	}
-	h2,input[type=text] {
-		position: absolute;
-		left: 10%;
-		right: 10%;
-		display: block;
-		width: auto;
-	}
 	h2 {
+		position: absolute;
 		line-height: 2em;
 		top: 15%;
+		width: 100%;
+		text-align: center;
+		font-size: 1.9em;
 	}
 	input[type=text] {
+		position: absolute;
+		left: 10%;
+		width: 80%;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
 		top: 50%;
 		margin-top: -1em;
 		font-size: 2em;
 		height: 2em;
 		line-height: 2em;
 		text-transform: uppercase;
+		text-align: center;
 	}
 	a.btn {
+		position: absolute;
 		bottom: 15%;
 		left: 30%;
 		right: 30%;

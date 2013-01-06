@@ -1,19 +1,36 @@
 table.table.well td.hint .progress {
 	margin-bottom: 0px;
 }
+
 table#created-polls td.question {
 	text-overflow: ellipsis;
 }
-table#created-polls td.activate a,
-table#active-polls td.deactivate a,
-table#history-polls td.activate a {
-	float: right;
-}
-table#created-polls td.token,
-table#active-polls td.token,
-table#history-polls td.token {
-	font-size: 1.2em;
-	font-family: @monoFontFamily;
+
+table#created-polls,
+table#active-polls,
+table#history-polls {
+	th.activate, td.activate,
+	th.deactivate, td.deactivate,
+	th.reactivate, td.reactivate {
+		text-align: center;
+	}
+	td.token {
+		font-size: 1.2em;
+		font-family: @monoFontFamily;
+	}
+	td.see-all a {
+		display: block;
+		width: 100%;
+		text-align: center;
+	}
+	tr.poll {
+		& > td {
+			cursor: pointer;
+		}
+		&:hover {
+			color: @black;
+		}
+	}
 }
 
 /* Create form */
@@ -40,7 +57,7 @@ form.well input[name=question] {
 }
 .poll-choices .input-prepend:last-child {
 	opacity: 0.8;
-	> * {
+	& > * {
 		border-style: dashed;
 	}
 }

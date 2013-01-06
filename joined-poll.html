@@ -20,10 +20,18 @@
         </ul>
       </div>
     </div>
-    <form id="vote-form" onsubmit="return false;">
-      <div class="row-fluid question">
+
+    <form id="vote-form" class="container-fluid">
+      <!--div class="row-fluid question">
         <div class="span10 offset1">
           <h3>What is the question of life, the universe and everything?</h3>
+        </div>
+      </div -->
+      <div class="row-fluid question">
+        <div class="span10 offset1">
+          <div class="page-header">
+            <h3>What is the question of life, the universe and everything?</h3>
+          </div>
         </div>
       </div>
       <div class="row-fluid choice">
@@ -70,7 +78,8 @@
         $(this).closest(".choice").addClass('selected').siblings().removeClass('selected');
       });
 
-      $("form#vote-form").submit(function() {
+      $("form#vote-form").submit(function(e) {
+        e.preventDefault();
         location.href="voted.html";
       });
     });

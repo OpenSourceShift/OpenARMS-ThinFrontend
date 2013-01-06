@@ -1,30 +1,32 @@
-.question {
-	text-align: center;
-}
-.choice {
-	border-radius: 0.5em;
-	position: relative;
-	h4 {
-		font-weight: normal;
+#vote-form {
+	.question {
+		text-align: center;
 	}
-}
-.choice div.choice-button {
-	text-align: center;
-}
-.choice div.choice-button input {
-	position: absolute;
-	top: 50%;
-	width: 1.4em;
-	height: 1.4em;
-	margin-top: -0.7em;
-}
-.choice.selected {
-	// background: darken(@bodyBackground, 20%);
-	background: @detailColor;
-	color: @white;
-}
-form#vote-form input[type=submit] {
-	position: relative;
-	display: block;
-	margin: 0.5em auto;
+	.choice {
+		border-radius: 0.5em;
+		position: relative;
+		h4 {
+			font-weight: normal;
+		}
+	}
+	.choice div.choice-button {
+		text-align: center;
+	}
+	.choice div.choice-button input {
+		position: absolute;
+		top: 50%;
+		width: 1.4em;
+		height: 1.4em;
+		margin-top: -0.7em;
+	}
+	.choice.selected {
+		// background: darken(@bodyBackground, 20%);
+		background: @detailColor;
+		color: @white;
+	}
+	input[type=submit] {
+		position: relative;
+		display: block;
+		margin: 0.5em auto;
+	}
 }

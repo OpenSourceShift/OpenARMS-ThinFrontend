@@ -28,9 +28,9 @@
             <tr>
               <th>Question</th>
               <th>Token</th>
-              <th>Activate</th>
+              <th class="activate">Activate</th>
             </tr>
-            <tr>
+            <tr class="poll">
               <td class="question">Hvad er spørgsmålet?</td>
               <td class="token">AGN3N5</td>
               <td class="activate"><a href="#" class="btn btn-small"><i class="icon-play" /></a></td>
@@ -38,7 +38,7 @@
             <tr>
               <td colspan="3" class="hint"><small>Created today at 10:12</small></td>
             </tr>
-            <tr>
+            <tr class="poll">
               <td class="question">Dette er et andet, lidt længere spørgsmål!</td>
               <td class="token">JNDONE</td>
               <td class="activate"><a href="#" class="btn btn-small"><i class="icon-play" /></a></td>
@@ -54,9 +54,9 @@
             <tr>
               <th>Question</th>
               <th>Token</th>
-              <th>Stop</th>
+              <th class="deactivate">Stop</th>
             </tr>
-            <tr>
+            <tr class="poll">
               <td class="question">Hvad kom først?</td>
               <td class="token">NC98ED</td>
               <td class="deactivate"><a href="#" class="btn btn-small"><i class="icon-stop" /></a></td>
@@ -77,25 +77,25 @@
             <tr>
               <th>Question</th>
               <th>Token</th>
-              <th>Reactivate</th>
+              <th class="reactivate">Reactivate</th>
             </tr>
-            <tr>
+            <tr class="poll">
               <td class="question">Et gammelt spørgsmål, med en masse interessante svar.</td>
               <td class="token">MNF938</td>
-              <td class="activate"><a href="#" class="btn btn-small"><i class="icon-repeat" /></a></td>
+              <td class="reactivate"><a href="#" class="btn btn-small"><i class="icon-repeat" /></a></td>
             </tr>
-            <tr>
+            <tr class="poll">
               <td class="question">Et andet gammelt spørgsmål.</td>
               <td class="token">912DFB</td>
-              <td class="activate"><a href="#" class="btn btn-small"><i class="icon-repeat" /></a></td>
+              <td class="reactivate"><a href="#" class="btn btn-small"><i class="icon-repeat" /></a></td>
             </tr>
-            <tr>
+            <tr class="poll">
               <td class="question">Det tredje og sidste gamle spørgsmål.</td>
               <td class="token">DANG03</td>
-              <td class="activate"><a href="#" class="btn btn-small"><i class="icon-repeat" /></a></td>
+              <td class="reactivate"><a href="#" class="btn btn-small"><i class="icon-repeat" /></a></td>
             </tr>
             <tr>
-              <td colspan="3"><small><a href="#">Click to see all</a></small></td>
+              <td class="see-all" colspan="3"><small><a href="#">Click to see all</a></small></td>
             </tr>
           </table>
         </div>
@@ -104,19 +104,20 @@
         <div class="span12">
           <h3>Create poll</h3>
           <form class="well" id="create-poll">
-            <input type="text" class="input-xxlarge" name="question" placeholder="Question">
+            <input type="text" name="question" placeholder="Question">
             <span class="help-block">Click the advanced button below, to get a rich text field for the question.</span>
+
             <div class="poll-choices">
-              <h4><span>2</span> Choices</h4>
+              <h4>Provide the voter <span>2</span> choices</h4>
               <div class="input-prepend">
                 <span class="add-on">#1</span>
-                <input class="span2" id="prependedInput" type="text" placeholder="A">
+                <input type="text" placeholder="A">
               </div><div class="input-prepend">
                 <span class="add-on">#2</span>
-                <input class="span2" id="prependedInput" type="text" placeholder="B">
+                <input type="text" placeholder="B">
               </div><div class="input-prepend">
                 <span class="add-on">#3</span>
-                <input class="span2" id="prependedInput" type="text" placeholder="C">
+                <input type="text" placeholder="C">
               </div></div>
             <span class="help-block">Click the faded choice to add more.</span>
 
@@ -182,7 +183,7 @@
           // Replace this with template engine code.
           $inputPrepend = $('<div class="input-prepend">');
           $inputSpan = $('<span class="add-on"></span>').text("#"+n);
-          $input = $('<input class="span2" id="prependedInput" type="text">').attr('placeholder', String.fromCharCode(64+n));
+          $input = $('<input id="prependedInput" type="text">').attr('placeholder', String.fromCharCode(64+n));
 
           $inputPrepend.append($inputSpan, $input);
 
@@ -203,6 +204,16 @@
       });
 
       // Simulations
+
+      // When a poll is clicked, change to the char view.
+      $(".poll").live('click', function(e) {
+        location.href="poll.html";
+      });
+
+      $(".poll .btn").live('click', function(e) {
+        // To stop it from triggering the .poll click event.
+        e.stopPropagation();
+      });
 
       // Active poll simulation - START
       $(".progress").data('value', 10);
